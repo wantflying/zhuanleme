@@ -41,7 +41,8 @@ Page({
     currentTime: '',
     
     // 主题类名
-    themeClass: ''
+    themeClass: '',
+    importText: ''
   },
 
   /**
@@ -98,7 +99,7 @@ Page({
       retirementAge: 60,
       currentAge: 25,
       theme: 'pixel',
-      pixelColor: 'mint'
+      pixelColor: 'ocean'
     };
     
     prefs = Object.assign({}, defaultPrefs, prefs);
@@ -296,6 +297,88 @@ Page({
   },
 
   /**
+   * 导出数据为JSON文本
+   */
+  exportData() {
+    const data = {
+      prefs: wx.getStorageSync('zl_prefs') || {},
+      items: wx.getStorageSync('zl_items') || [],
+      meta: { exportedAt: Date.now(), app: 'zhuan', version: this.data?.globalData?.version || '1.0.0' }
+    };
+    const text = JSON.stringify(data);
+    wx.setClipboardData({
+      data: text,
+      success: () => wx.showToast({ title: 'JSON已复制', icon: 'success' })
+    });
+  },
+
+  /**
+   * 导入文本输入变化
+   */
+  onImportTextChange(e) {
+    this.setData({ importText: e.detail.value });
+  },
+
+  /**
+   * 清空导入文本
+   */
+  clearImportText() {
+    this.setData({ importText: '' });
+  },
+
+  /**
+   * 导入JSON数据
+   */
+  importData() {
+    const { importText } = this.data;
+    if (!importText || !importText.trim()) {
+      wx.showToast({ title: '请输入JSON文本', icon: 'none' });
+      return;
+    }
+    try {
+      const parsed = JSON.parse(importText);
+      if (parsed && typeof parsed === 'object') {
+        if (parsed.prefs) wx.setStorageSync('zl_prefs', parsed.prefs);
+        if (parsed.items) wx.setStorageSync('zl_items', parsed.items);
+        wx.showToast({ title: '导入成功', icon: 'success' });
+        this.loadPreferences();
+        this.loadItemStats();
+        this.calculateData();
+      } else {
+        wx.showToast({ title: 'JSON格式不正确', icon: 'none' });
+      }
+    } catch (err) {
+      wx.showToast({ title: '解析失败，请检查JSON', icon: 'none' });
+    }
+  },
+
+  /**
+   * 一键重置所有数据
+   */
+  resetAllData() {
+    wx.showModal({
+      title: '重置确认',
+      content: '将清空成本/收益/退休等所有数据，且不可恢复，确认继续？',
+      success: (res) => {
+        if (res.confirm) {
+          try {
+            wx.removeStorageSync('zl_items');
+            wx.removeStorageSync('zl_prefs');
+            wx.removeStorageSync('zl_has_data');
+            this.setData({ importText: '' });
+            this.loadPreferences();
+            this.loadItemStats();
+            this.calculateData();
+            wx.showToast({ title: '已重置', icon: 'success' });
+          } catch (e) {
+            wx.showToast({ title: '重置失败', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
+  /**
    * 获取像素风颜色索引
    */
   getPixelColorIndex(color) {
@@ -339,7 +422,7 @@ Page({
    */
   navigateToDepreciation() {
     wx.navigateTo({
-      url: 'pages/depreciation/index'
+      url: '/pages/depreciation/index'
     });
   },
 
@@ -348,7 +431,7 @@ Page({
    */
   navigateToIncome() {
     wx.navigateTo({
-      url: 'pages/income/index'
+      url: '/pages/income/index'
     });
   },
 

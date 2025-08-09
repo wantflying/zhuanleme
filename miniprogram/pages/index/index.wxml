@@ -102,6 +102,26 @@
             <switch checked="{{prefs.enableIncomeAnimation}}" bindchange="onAnimationToggle" />
           </view>
         </view>
+
+        <view class="setting-section">
+          <view class="section-title">数据管理</view>
+          <view class="setting-item">
+            <view class="setting-label">导出数据</view>
+            <view class="picker-display" bindtap="exportData">点击导出（复制到剪贴板）</view>
+          </view>
+          <view class="setting-item">
+            <view class="setting-label">导入数据（粘贴JSON）</view>
+            <textarea class="import-textarea" placeholder="在此粘贴导出的JSON文本" value="{{importText}}" bindinput="onImportTextChange" />
+            <view class="settings-footer-inline">
+              <view class="setting-btn secondary" bindtap="clearImportText">清空</view>
+              <view class="setting-btn primary" bindtap="importData">导入</view>
+            </view>
+          </view>
+          <view class="setting-item">
+            <view class="setting-label">一键重置</view>
+            <view class="picker-display danger" bindtap="resetAllData">清空本地数据（含成本/收益/退休）</view>
+          </view>
+        </view>
         
         <view class="setting-help">
           <text>• 更多详细设置请到对应功能页面进行配置</text>

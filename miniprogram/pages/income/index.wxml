@@ -4,7 +4,6 @@
   <view class="status-card card">
     <view class="status-header">
       <view class="status-info">
-        <view class="current-time">{{currentTime}}</view>
         <view class="work-status {{incomeInfo.isTodayWorkday ? 'working' : 'resting'}}">
           {{incomeInfo.isTodayWorkday ? '工作日' : '休息日'}}
         </view>

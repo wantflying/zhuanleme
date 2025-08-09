@@ -42,7 +42,7 @@ App({
         
         // 主题设置
         theme: 'pixel', // default, pixel
-        pixelColor: 'mint', // mint, sunset, grape
+        pixelColor: 'ocean', // mint, sunset, grape, ocean, forest, rose
         
         // 动效设置
         enableIncomeAnimation: true,

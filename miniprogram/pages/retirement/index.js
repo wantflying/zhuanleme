@@ -102,7 +102,7 @@ Page({
       holidays: [],
       workdays: [],
       theme: 'pixel',
-      pixelColor: 'mint'
+      pixelColor: 'ocean'
     };
     
     prefs = Object.assign({}, defaultPrefs, prefs);

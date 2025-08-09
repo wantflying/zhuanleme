@@ -125,7 +125,7 @@ Page({
       animationType: 'pulse',
       animationDuration: 1000,
       theme: 'pixel',
-      pixelColor: ''
+      pixelColor: 'ocean'
     };
     prefs = Object.assign({}, defaultPrefs, prefs);
     
