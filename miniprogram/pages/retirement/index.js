@@ -1,5 +1,6 @@
 // pages/retirement/index.js
 const { calculateRetirement, formatDate } = require('../../utils/calc.js');
+const { haptic, hapticLong } = require('../../utils/haptics.js');
 
 Page({
   /**
@@ -47,7 +48,9 @@ Page({
       progressPercent: 0
     },
     retirementModeRange: ['近似模式', '精确模式'],
-    retirementModeOptions: ['approximate', 'precise']
+    retirementModeOptions: ['approximate', 'precise'],
+    // 里程碑
+    milestones: []
   },
 
   /**
@@ -153,14 +156,45 @@ Page({
       workdaysFromHours: Math.floor(retirement.workhourToRetirement / 24),
       remainingWorkYears: Math.floor(retirement.workdaysToRetirement / 252)
     };
+
+    // 计算重要里程碑倒计时（以天为单位）
+    const milestoneAges = [30, 40, 50, ageInfo.retirementAge];
+    const uniqueAges = Array.from(new Set(milestoneAges.filter(a => !!a)));
+    const milestones = uniqueAges.map(age => {
+      const daysLeft = this.calculateDaysToAge(age, prefs);
+      const completed = ageInfo.currentAge >= age || daysLeft <= 0;
+      return {
+        age,
+        daysLeft: Math.max(0, daysLeft),
+        completed
+      };
+    }).sort((a, b) => a.age - b.age);
     
     this.setData({
       retirement,
       ageInfo,
       chartData,
       currentTime,
-      calcData
+      calcData,
+      milestones
     });
+  },
+
+  /**
+   * 计算距离到达指定年龄的天数
+   */
+  calculateDaysToAge(targetAge, prefs) {
+    const now = new Date();
+    const { birthday, currentAge } = prefs;
+    if (birthday) {
+      const birthDate = new Date(birthday);
+      const targetDate = new Date(birthDate.getFullYear() + targetAge, birthDate.getMonth(), birthDate.getDate());
+      const diffMs = targetDate.getTime() - now.getTime();
+      return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    }
+    // 近似：按当前年龄到目标年龄的年数换算天数
+    const yearsLeft = Math.max(0, (targetAge - (currentAge || 0)));
+    return Math.ceil(yearsLeft * 365.25);
   },
 
   /**
@@ -253,6 +287,7 @@ Page({
       showSettings: true,
       tempPrefs: clonePrefs2
     });
+    haptic('light');
   },
 
   /**
@@ -260,6 +295,7 @@ Page({
    */
   hideSettingsPanel() {
     this.setData({ showSettings: false });
+    haptic('light');
   },
 
   /**
@@ -281,6 +317,7 @@ Page({
     // 立即触发页面数据计算更新
     const previewPrefs = Object.assign({}, this.data.prefs, tempPrefs);
     this.calculateRetirementInfo(previewPrefs);
+    haptic('light');
   },
 
   /**
@@ -300,6 +337,7 @@ Page({
     // 立即触发页面数据计算更新
     const previewPrefs = Object.assign({}, this.data.prefs, tempPrefs);
     this.calculateRetirementInfo(previewPrefs);
+    haptic('light');
   },
 
   /**
@@ -319,6 +357,7 @@ Page({
 
     const previewPrefs = Object.assign({}, this.data.prefs, tempPrefs);
     this.calculateRetirementInfo(previewPrefs);
+    haptic('light');
   },
 
   /**
@@ -330,16 +369,19 @@ Page({
     // 验证设置
     if (!tempPrefs.retirementAge || tempPrefs.retirementAge <= 0) {
       wx.showToast({ title: '请输入有效的退休年龄', icon: 'none' });
+      haptic('light');
       return;
     }
     
     if (!tempPrefs.currentAge || tempPrefs.currentAge <= 0) {
       wx.showToast({ title: '请输入有效的当前年龄', icon: 'none' });
+      haptic('light');
       return;
     }
     
     if (tempPrefs.currentAge >= tempPrefs.retirementAge) {
       wx.showToast({ title: '当前年龄不能大于或等于退休年龄', icon: 'none' });
+      haptic('light');
       return;
     }
     
@@ -355,6 +397,7 @@ Page({
       title: '设置已保存',
       icon: 'success'
     });
+    haptic('medium');
   },
 
   /**
@@ -374,6 +417,7 @@ Page({
       title: `已切换到${newMode === 'approximate' ? '近似' : '精确'}模式`,
       icon: 'success'
     });
+    haptic('medium');
   },
 
   /**
@@ -385,6 +429,7 @@ Page({
       title: '数据已刷新',
       icon: 'success'
     });
+    haptic('light');
   },
 
   /**
@@ -401,6 +446,7 @@ Page({
           title: '退休信息已复制',
           icon: 'success'
         });
+        haptic('light');
       }
     });
   },

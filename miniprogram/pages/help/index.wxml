@@ -1,0 +1,33 @@
+<view class="container {{themeClass}}">
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title">帮助文档</view>
+    </view>
+    <view class="card-body">
+      <view class="section">
+        <view class="section-title">关于</view>
+        <view class="section-text">砖了么是一款帮助你量化时间与花费价值的微信小程序。</view>
+      </view>
+      <view class="section">
+        <view class="section-title">功能</view>
+        <view class="section-text">• 使用成本与折旧：记录物品并计算日用成本与当前价值</view>
+        <view class="section-text">• 今日收益：根据工资与工时实时估算今日已赚</view>
+        <view class="section-text">• 退休倒计时：基于年龄与配置估算剩余工作时长</view>
+        <view class="section-text">• 节假日日历：一键拉取并应用法定节假日与调休</view>
+      </view>
+      <view class="section">
+        <view class="section-title">设置说明</view>
+        <view class="section-text">• 主题与像素风配色可在首页右上角设置面板切换</view>
+        <view class="section-text">• 动效与震动可在设置中开启/关闭并调整等级</view>
+        <view class="section-text">• 数据可导出为 JSON 并在任意设备导入</view>
+      </view>
+      <view class="section">
+        <view class="section-title">常见问题</view>
+        <view class="section-text">• 今日收益为 0？请检查是否为工作日和上班时段</view>
+        <view class="section-text">• 退休天数异常？请补充生日或切换精确模式</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+

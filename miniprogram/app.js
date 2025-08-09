@@ -49,6 +49,10 @@ App({
         animationType: 'pulse', // pulse, glow, shake, blink, odometer
         animationIntensity: 0.5,
         animationDuration: 1000,
+
+        // 震动设置
+        hapticsEnabled: true,
+        hapticsLevel: 'medium', // light | medium | heavy
         
         // 计算模式
         incomeMode: 'average', // average, precise

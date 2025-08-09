@@ -1,5 +1,6 @@
 // pages/index/index.js
-const { calculateTodayIncome, calculateRetirement, formatTimeWithSeconds, formatDate } = require('../../utils/calc.js');
+const { calculateTodayIncome, calculateRetirement, formatTimeWithSeconds } = require('../../utils/calc.js');
+const { haptic, hapticLong } = require('../../utils/haptics.js');
 
 Page({
   /**
@@ -35,17 +36,24 @@ Page({
     
     // 设置面板
     showSettings: false,
-    // 操作说明
-    showHelp: false,
     
     // 动效相关
     incomeAnimationTimer: null,
     currentTime: '',
-    dailyQuote: '',
     
     // 主题类名
     themeClass: '',
-    importText: ''
+    importText: '',
+
+    // 像素风配色选择器（WXML 数据驱动）
+    pixelColorRangeLabels: ['薄荷色', '日落橙', '葡萄紫', '海洋蓝', '森林绿', '玫瑰金'],
+    pixelColorOptions: ['mint', 'sunset', 'grape', 'ocean', 'forest', 'rose'],
+    pixelColorIndex: 0,
+    pixelColorLabel: '薄荷色',
+
+    // 名言展示
+    mottoText: '',
+    mottoSymbols: ['「', '」']
   },
 
   /**
@@ -57,7 +65,7 @@ Page({
     this.calculateData();
     this.updateTime();
     this.startIncomeAnimation();
-    this.setDailyQuote();
+    this.loadMotto();
   },
 
   /**
@@ -68,7 +76,7 @@ Page({
     this.loadItemStats();
     this.calculateData();
     this.startIncomeAnimation();
-    this.setDailyQuote();
+    this.loadMotto();
   },
 
   /**
@@ -76,72 +84,6 @@ Page({
    */
   onHide() {
     this.stopIncomeAnimation();
-  },
-
-  /**
-   * 语录候选（8-12字）
-   */
-  getQuoteList() {
-    const quotes = [
-      '行到水穷坐看云起',
-      '此心安处是吾乡',
-      '非淡泊无以明志',
-      '非宁静无以致远',
-      '不驰于空想不骛于虚声',
-      '日拱一卒功不唐捐',
-      '以终为始慎思笃行',
-      '躬身入局久久为功',
-      '路漫漫其修远兮',
-      '穷且益坚不坠青云之志',
-      '博观而约取厚积而薄发',
-      '吾生也有涯而知也无涯',
-      '吾将上下而求索',
-      '心有猛虎细嗅蔷薇',
-      '静以修身俭以养德',
-      '面朝大海春暖花开',
-      '读万卷书行万里路',
-      '少壮不努力老大徒伤悲',
-      '天行健君子以自强不息',
-      '地势坤君子以厚德载物',
-      '苟日新日日新又日新',
-      '大道至简实干为要',
-      '慎独守拙行稳致远'
-    ];
-    // 过滤长度 8-12 字
-    return quotes.filter(q => q.length >= 8 && q.length <= 12);
-  },
-
-  /**
-   * 设置每日一句（默认按日期稳定）
-   */
-  setDailyQuote() {
-    const list = this.getQuoteList();
-    if (!list.length) return;
-    const today = formatDate(new Date());
-    let hash = 0;
-    for (let i = 0; i < today.length; i++) {
-      hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
-    }
-    const index = hash % list.length;
-    this.setData({ dailyQuote: list[index] });
-  },
-
-  /**
-   * 刷新语录（点击左上角）
-   */
-  refreshDailyQuote() {
-    const list = this.getQuoteList();
-    if (!list.length) return;
-    let next = list[Math.floor(Math.random() * list.length)];
-    // 尽量与当前不同
-    if (list.length > 1) {
-      let tries = 0;
-      while (next === this.data.dailyQuote && tries < 5) {
-        next = list[Math.floor(Math.random() * list.length)];
-        tries++;
-      }
-    }
-    this.setData({ dailyQuote: next });
   },
 
   /**
@@ -180,9 +122,13 @@ Page({
     prefs = Object.assign({}, defaultPrefs, prefs);
     
     const themeClass = this.getThemeClass(prefs);
+    const pixelColorIndex = this.getPixelColorIndex(prefs.pixelColor);
+    const pixelColorLabel = this.getPixelColorLabel(prefs.pixelColor);
     this.setData({
       prefs,
-      themeClass
+      themeClass,
+      pixelColorIndex,
+      pixelColorLabel
     });
   },
 
@@ -257,6 +203,54 @@ Page({
   },
 
   /**
+   * 加载与刷新名言
+   */
+  loadMotto() {
+    const mottos = [
+      '不积跬步，无以至千里',
+      '日日精进，久久为功',
+      '你所热爱的，正是你的生活',
+      '种一棵树最好的时间是十年前，其次是现在',
+      '凡事预则立，不预则废',
+      '长期主义，时间的朋友'
+    ];
+    const today = new Date();
+    const key = 'zl_motto';
+    let saved = {};
+    try { saved = wx.getStorageSync(key) || {}; } catch (e) {}
+    const todayStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    let index = 0;
+    if (saved.date === todayStr && typeof saved.index === 'number') {
+      index = saved.index % mottos.length;
+    } else {
+      index = Math.floor(Math.random() * mottos.length);
+      wx.setStorageSync(key, { date: todayStr, index });
+    }
+    this.setData({ mottoText: mottos[index] });
+  },
+
+  refreshMotto() {
+    const mottos = [
+      '不积跬步，无以至千里',
+      '日日精进，久久为功',
+      '你所热爱的，正是你的生活',
+      '种一棵树最好的时间是十年前，其次是现在',
+      '凡事预则立，不预则废',
+      '长期主义，时间的朋友'
+    ];
+    const key = 'zl_motto';
+    let saved = {};
+    try { saved = wx.getStorageSync(key) || {}; } catch (e) {}
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    const currentIndex = typeof saved.index === 'number' ? saved.index : 0;
+    const nextIndex = (currentIndex + 1) % mottos.length;
+    wx.setStorageSync(key, { date: todayStr, index: nextIndex });
+    this.setData({ mottoText: mottos[nextIndex] });
+    haptic('light');
+  },
+
+  /**
    * 开始收益动画
    */
   startIncomeAnimation() {
@@ -318,6 +312,10 @@ Page({
         this.setData({
           incomeAnimation: animation.export()
         });
+        // 动效触发时（若开启震动）反馈
+        if (this.data.prefs && this.data.prefs.hapticsEnabled) {
+          haptic('light');
+        }
       }
     });
   },
@@ -334,16 +332,6 @@ Page({
    */
   hideSettingsPanel() {
     this.setData({ showSettings: false });
-  },
-
-  /**
-   * 显示/隐藏操作说明
-   */
-  showHelpPanel() {
-    this.setData({ showHelp: true });
-  },
-  hideHelpPanel() {
-    this.setData({ showHelp: false });
   },
 
   /**
@@ -365,30 +353,39 @@ Page({
     wx.setStorageSync('zl_prefs', updatedPrefs);
     this.loadPreferences();
     this.calculateData();
+    haptic('medium');
   },
 
   /**
    * 像素风配色变化
    */
   onPixelColorChange(e) {
-    const colors = ['mint', 'sunset', 'grape', 'ocean', 'forest', 'rose'];
-    const selectedColor = colors[e.detail.value];
+    const colors = this.data.pixelColorOptions || ['mint', 'sunset', 'grape', 'ocean', 'forest', 'rose'];
+    const selectedIndex = Number(e.detail.value || 0);
+    const selectedColor = colors[selectedIndex];
     
     const updatedPrefs = Object.assign({}, this.data.prefs, { pixelColor: selectedColor });
     
     wx.setStorageSync('zl_prefs', updatedPrefs);
+    this.setData({
+      pixelColorIndex: selectedIndex,
+      pixelColorLabel: this.getPixelColorLabel(selectedColor)
+    });
     this.loadPreferences();
     this.calculateData();
+    haptic('medium');
   },
 
   /**
    * 导出数据为JSON文本
    */
   exportData() {
+    const app = getApp && getApp();
+    const version = (app && app.globalData && app.globalData.version) || '1.0.0';
     const data = {
       prefs: wx.getStorageSync('zl_prefs') || {},
       items: wx.getStorageSync('zl_items') || [],
-      meta: { exportedAt: Date.now(), app: 'zhuan', version: this.data?.globalData?.version || '1.0.0' }
+      meta: { exportedAt: Date.now(), app: 'zhuan', version, hasData: !!wx.getStorageSync('zl_has_data') }
     };
     const text = JSON.stringify(data);
     wx.setClipboardData({
@@ -425,6 +422,9 @@ Page({
       if (parsed && typeof parsed === 'object') {
         if (parsed.prefs) wx.setStorageSync('zl_prefs', parsed.prefs);
         if (parsed.items) wx.setStorageSync('zl_items', parsed.items);
+        if (parsed.meta && typeof parsed.meta.hasData === 'boolean') {
+          wx.setStorageSync('zl_has_data', parsed.meta.hasData);
+        }
         wx.showToast({ title: '导入成功', icon: 'success' });
         this.loadPreferences();
         this.loadItemStats();
@@ -500,6 +500,30 @@ Page({
     
     // 重启动画
     this.startIncomeAnimation();
+    haptic('light');
+  },
+
+  /**
+   * 震动开关
+   */
+  onHapticsToggle(e) {
+    const enabled = e.detail.value;
+    const updatedPrefs = Object.assign({}, this.data.prefs, { hapticsEnabled: enabled });
+    wx.setStorageSync('zl_prefs', updatedPrefs);
+    this.loadPreferences();
+    if (enabled) haptic('light');
+  },
+
+  /**
+   * 震动等级
+   */
+  onHapticsLevelChange(e) {
+    const options = ['light', 'medium', 'heavy'];
+    const selected = options[Number(e.detail.value || 1)];
+    const updatedPrefs = Object.assign({}, this.data.prefs, { hapticsLevel: selected });
+    wx.setStorageSync('zl_prefs', updatedPrefs);
+    this.loadPreferences();
+    haptic(selected);
   },
 
   /**

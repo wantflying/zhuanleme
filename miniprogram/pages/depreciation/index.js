@@ -1,5 +1,6 @@
 // pages/depreciation/index.js
 const { calculateDepreciation, formatDate } = require('../../utils/calc.js');
+const { haptic, hapticLong } = require('../../utils/haptics.js');
 
 Page({
   /**
@@ -283,6 +284,7 @@ Page({
       },
       'formDisplay.depreciationRatePercent': 20
     });
+    haptic('light');
   },
 
   /**
@@ -293,6 +295,7 @@ Page({
       showAddForm: false,
       editingId: null
     });
+    haptic('light');
   },
 
   /**
@@ -336,6 +339,7 @@ Page({
         'addForm.depreciationRate': value,
         'formDisplay.depreciationRatePercent': Math.round(value * 100)
       });
+      haptic('light');
     }
   },
 
@@ -348,16 +352,19 @@ Page({
     // 验证表单
     if (!addForm.name.trim()) {
       wx.showToast({ title: '请输入物品名称', icon: 'none' });
+      haptic('light');
       return;
     }
     
     if (!addForm.price || addForm.price <= 0) {
       wx.showToast({ title: '请输入有效价格', icon: 'none' });
+      haptic('light');
       return;
     }
     
     if (!addForm.purchaseDate) {
       wx.showToast({ title: '请选择购买日期', icon: 'none' });
+      haptic('light');
       return;
     }
     
@@ -401,6 +408,7 @@ Page({
       title: editingId ? '修改成功' : '添加成功',
       icon: 'success'
     });
+    haptic('medium');
   },
 
   /**
@@ -431,6 +439,7 @@ Page({
         },
         'formDisplay.depreciationRatePercent': Math.round(item.depreciationRate * 100)
       });
+      haptic('light');
     }
   },
 
@@ -450,6 +459,7 @@ Page({
       content: '确定要删除这个物品吗？',
       success: (res) => {
         if (res.confirm) {
+          hapticLong();
           const items = wx.getStorageSync('zl_items') || [];
           const filteredItems = items.filter(item => item.id !== id);
           wx.setStorageSync('zl_items', filteredItems);
@@ -459,6 +469,7 @@ Page({
             title: '删除成功',
             icon: 'success'
           });
+          haptic('light');
         }
       }
     });
@@ -471,6 +482,7 @@ Page({
     const { type } = e.currentTarget.dataset;
     this.setData({ filterType: type });
     this.loadItems();
+    haptic('light');
   },
 
   /**
@@ -505,6 +517,7 @@ Page({
     }
     
     this.loadItems();
+    haptic('light');
   },
 
   /**
@@ -530,6 +543,7 @@ Page({
         content: content.trim(),
         showCancel: false
       });
+      haptic('light');
     }
   },
 
@@ -542,6 +556,7 @@ Page({
       content: '确定要清除所有物品数据吗？此操作不可恢复。',
       success: (res) => {
         if (res.confirm) {
+          hapticLong();
           wx.removeStorageSync('zl_items');
           wx.removeStorageSync('zl_has_data'); // 重置数据标记，允许重新显示示例数据
           this.loadItems(); // 重新加载会自动添加示例数据
@@ -550,6 +565,7 @@ Page({
             title: '数据已清除',
             icon: 'success'
           });
+          haptic('light');
         }
       }
     });

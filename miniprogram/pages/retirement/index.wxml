@@ -87,34 +87,17 @@
     </view>
   </view>
 
-  <!-- 里程碑 -->
+  <!-- 里程碑（改为倒计时展示） -->
   <view class="milestones card">
     <view class="card-title">重要里程碑</view>
-    
     <view class="milestone-list">
-      <view class="milestone-item {{ageInfo.currentAge >= 30 ? 'completed' : ''}}">
-        <view class="milestone-age">30岁</view>
-        <view class="milestone-desc">职业发展期</view>
-        <view class="milestone-status">{{ageInfo.currentAge >= 30 ? '✅' : '⏳'}}</view>
-      </view>
-      
-      <view class="milestone-item {{ageInfo.currentAge >= 40 ? 'completed' : ''}}">
-        <view class="milestone-age">40岁</view>
-        <view class="milestone-desc">事业巅峰期</view>
-        <view class="milestone-status">{{ageInfo.currentAge >= 40 ? '✅' : '⏳'}}</view>
-      </view>
-      
-      <view class="milestone-item {{ageInfo.currentAge >= 50 ? 'completed' : ''}}">
-        <view class="milestone-age">50岁</view>
-        <view class="milestone-desc">财富积累期</view>
-        <view class="milestone-status">{{ageInfo.currentAge >= 50 ? '✅' : '⏳'}}</view>
-      </view>
-      
-      <view class="milestone-item {{ageInfo.currentAge >= ageInfo.retirementAge ? 'completed' : ''}}">
-        <view class="milestone-age">{{ageInfo.retirementAge}}岁</view>
-        <view class="milestone-desc">享受退休生活</view>
-        <view class="milestone-status">{{ageInfo.currentAge >= ageInfo.retirementAge ? '🎉' : '🎯'}}</view>
-      </view>
+      <block wx:for="{{milestones}}" wx:key="age">
+        <view class="milestone-item {{item.completed ? 'completed' : ''}}">
+          <view class="milestone-age">{{item.age}}岁</view>
+          <view class="milestone-desc">剩余 {{item.daysLeft}} 天</view>
+          <view class="milestone-status">{{item.completed ? '✅' : '⏳'}}</view>
+        </view>
+      </block>
     </view>
   </view>
 

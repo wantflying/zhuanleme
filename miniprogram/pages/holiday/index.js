@@ -1,5 +1,6 @@
 // pages/holiday/index.js
 const { getCurrentAndNextYearHolidays, convertToPreferences, formatDate } = require('../../utils/holiday_api.js');
+const { haptic, hapticLong } = require('../../utils/haptics.js');
 
 Page({
   /**
@@ -55,6 +56,7 @@ Page({
     this.loadCurrentSettings();
     this.initYearRange();
     this.loadHolidayData();
+    haptic('light');
   },
 
   /**
@@ -193,6 +195,7 @@ Page({
     const selectedYear = this.data.yearRange[yearIndex];
     
     this.setData({ currentYear: selectedYear });
+    haptic('light');
   },
 
   /**
@@ -204,6 +207,7 @@ Page({
       title: '数据已刷新',
       icon: 'success'
     });
+    haptic('light');
   },
 
   /**
@@ -265,6 +269,7 @@ Page({
       title: '设置已应用',
       icon: 'success'
     });
+    haptic('medium');
   },
 
   /**
@@ -311,6 +316,7 @@ Page({
       title: '设置已清除',
       icon: 'success'
     });
+    haptic('light');
   },
 
   /**
@@ -342,6 +348,7 @@ Page({
       content: content.trim() || '暂无数据',
       showCancel: false
     });
+    haptic('light');
   },
 
   /**
@@ -378,6 +385,7 @@ Page({
           title: '数据已复制到剪贴板',
           icon: 'success'
         });
+        haptic('light');
       }
     });
   },
@@ -399,5 +407,6 @@ Page({
       content: content.trim(),
       showCancel: false
     });
+    haptic('light');
   }
 });

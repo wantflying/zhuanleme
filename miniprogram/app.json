@@ -4,7 +4,8 @@
     "pages/depreciation/index",
     "pages/income/index",
     "pages/retirement/index",
-    "pages/holiday/index"
+    "pages/holiday/index",
+    "pages/help/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

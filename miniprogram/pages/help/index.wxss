@@ -1,0 +1,5 @@
+.section { margin-bottom: 30rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; margin-bottom: 12rpx; color: #333; }
+.section-text { font-size: 28rpx; color: #555; line-height: 1.6; }
+
+

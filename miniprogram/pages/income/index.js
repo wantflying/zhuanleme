@@ -1,5 +1,6 @@
 // pages/income/index.js
 const { calculateTodayIncome, calculateMonthWorkSeconds, calculateMonthWorkdaysCount, formatTime, formatTimeWithSeconds, parseTimeToMinutes, formatDate } = require('../../utils/calc.js');
+const { haptic, hapticLong } = require('../../utils/haptics.js');
 
 Page({
   /**
@@ -320,6 +321,10 @@ Page({
     if (!animationType || animationType === 'odometer') return;
     
     this.setData({ animationClass: animationType });
+    // 动效触发时（若开启震动）反馈
+    if (this.data.prefs && this.data.prefs.hapticsEnabled) {
+      haptic('light');
+    }
     
     // 动画结束后清除类名
     setTimeout(() => {
@@ -336,6 +341,7 @@ Page({
       showSettings: true,
       tempPrefs: clonePrefs
     });
+    haptic('light');
   },
 
   /**
@@ -343,6 +349,7 @@ Page({
    */
   hideSettingsPanel() {
     this.setData({ showSettings: false });
+    haptic('light');
   },
 
   /**
@@ -363,6 +370,7 @@ Page({
     
     // 立即触发页面数据计算更新
     this.calculateIncome();
+    haptic('light');
   },
 
   /**
@@ -381,6 +389,7 @@ Page({
     
     // 立即触发页面数据计算更新
     this.calculateIncome();
+    haptic('light');
   },
 
   /**
@@ -398,6 +407,7 @@ Page({
     });
     // 立即触发页面数据计算更新
     this.calculateIncome();
+    haptic('light');
   },
 
   /**
@@ -415,6 +425,7 @@ Page({
     });
     // 立即触发页面数据计算更新
     this.calculateIncome();
+    haptic('light');
   },
 
   /**
@@ -433,6 +444,7 @@ Page({
     });
     // 立即触发页面数据计算更新
     this.calculateIncome();
+    haptic('light');
 
     // 如果修改了每周上班天数，同步工作日掩码
     if (field === 'workDaysPerWeek') {
@@ -445,6 +457,7 @@ Page({
       const newPrefs = Object.assign({}, tempPrefs, { workdayMask: mask });
       this.setData({ tempPrefs: newPrefs });
       this.calculateIncome();
+      haptic('light');
     }
   },
 
@@ -457,11 +470,13 @@ Page({
     // 验证设置
     if (!tempPrefs.monthlySalary || tempPrefs.monthlySalary <= 0) {
       wx.showToast({ title: '请输入有效的月工资', icon: 'none' });
+      haptic('light');
       return;
     }
     
     if (!tempPrefs.workStartTime || !tempPrefs.workEndTime) {
       wx.showToast({ title: '请设置工作时间', icon: 'none' });
+      haptic('light');
       return;
     }
     
@@ -477,6 +492,7 @@ Page({
       title: '设置已保存',
       icon: 'success'
     });
+    haptic('medium');
   },
 
   /**
@@ -496,6 +512,7 @@ Page({
       title: `已切换到${newMode === 'average' ? '平均' : '精确'}模式`,
       icon: 'success'
     });
+    haptic('medium');
   },
 
   
@@ -509,6 +526,7 @@ Page({
       title: '数据已刷新',
       icon: 'success'
     });
+    haptic('light');
   },
 
   /**
@@ -525,6 +543,7 @@ Page({
           title: '收益信息已复制',
           icon: 'success'
         });
+        haptic('light');
       }
     });
   },
@@ -540,9 +559,11 @@ Page({
     if (idx >= 0) {
       workdays.splice(idx, 1);
       wx.showToast({ title: '已取消今日加班标记', icon: 'none' });
+      haptic('light');
     } else {
       workdays.push(todayStr);
       wx.showToast({ title: '已标记今日为加班', icon: 'none' });
+      haptic('light');
     }
     const updatedPrefs = Object.assign({}, prefs, { workdays });
     wx.setStorageSync('zl_prefs', updatedPrefs);
