@@ -466,7 +466,7 @@ Page({
       content: '确定要删除这个物品吗？',
       success: (res) => {
         if (res.confirm) {
-          hapticLong();
+          haptic('light');
           const items = wx.getStorageSync('zl_items') || [];
           const filteredItems = items.filter(item => item.id !== id);
           wx.setStorageSync('zl_items', filteredItems);
@@ -563,7 +563,7 @@ Page({
       content: '确定要清除所有物品数据吗？此操作不可恢复。',
       success: (res) => {
         if (res.confirm) {
-          hapticLong();
+          haptic('light');
           wx.removeStorageSync('zl_items');
           wx.removeStorageSync('zl_has_data'); // 重置数据标记，允许重新显示示例数据
           this.loadItems(); // 重新加载会自动添加示例数据
