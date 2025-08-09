@@ -105,6 +105,13 @@ Page({
     this.stopRealTimeUpdate();
   },
 
+  onTabItemTap() {
+    const prefs = wx.getStorageSync('zl_prefs') || {};
+    if (prefs.hapticsEnabled) {
+      haptic('light');
+    }
+  },
+
   /**
    * 加载偏好设置
    */

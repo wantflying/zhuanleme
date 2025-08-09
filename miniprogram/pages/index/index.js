@@ -94,6 +94,16 @@ Page({
   },
 
   /**
+   * 底栏切换震动
+   */
+  onTabItemTap() {
+    const prefs = wx.getStorageSync('zl_prefs') || {};
+    if (prefs.hapticsEnabled) {
+      haptic('light');
+    }
+  },
+
+  /**
    * 加载偏好设置
    */
   loadPreferences() {
@@ -325,6 +335,7 @@ Page({
    */
   showSettingsPanel() {
     this.setData({ showSettings: true });
+    haptic('light');
   },
 
   /**
@@ -332,6 +343,7 @@ Page({
    */
   hideSettingsPanel() {
     this.setData({ showSettings: false });
+    haptic('light');
   },
 
   /**
@@ -390,7 +402,10 @@ Page({
     const text = JSON.stringify(data);
     wx.setClipboardData({
       data: text,
-      success: () => wx.showToast({ title: 'JSON已复制', icon: 'success' })
+      success: () => {
+        wx.showToast({ title: 'JSON已复制', icon: 'success' });
+        haptic('light');
+      }
     });
   },
 
@@ -406,6 +421,7 @@ Page({
    */
   clearImportText() {
     this.setData({ importText: '' });
+    haptic('light');
   },
 
   /**
@@ -426,14 +442,17 @@ Page({
           wx.setStorageSync('zl_has_data', parsed.meta.hasData);
         }
         wx.showToast({ title: '导入成功', icon: 'success' });
+        haptic('medium');
         this.loadPreferences();
         this.loadItemStats();
         this.calculateData();
       } else {
         wx.showToast({ title: 'JSON格式不正确', icon: 'none' });
+        haptic('light');
       }
     } catch (err) {
       wx.showToast({ title: '解析失败，请检查JSON', icon: 'none' });
+      haptic('light');
     }
   },
 
@@ -457,7 +476,9 @@ Page({
             wx.reLaunch({ url: '/pages/index/index' });
           } catch (e) {
             wx.showToast({ title: '重置失败', icon: 'none' });
+            haptic('light');
           }
+          hapticLong();
         }
       }
     });
@@ -533,6 +554,7 @@ Page({
     wx.navigateTo({
       url: '/pages/depreciation/index'
     });
+    haptic('light');
   },
 
   /**
@@ -542,6 +564,7 @@ Page({
     wx.navigateTo({
       url: '/pages/income/index'
     });
+    haptic('light');
   },
 
   /**
@@ -551,6 +574,7 @@ Page({
     wx.navigateTo({
       url: '/pages/retirement/index'
     });
+    haptic('light');
   },
 
   /**
@@ -560,5 +584,6 @@ Page({
     wx.navigateTo({
       url: '/pages/holiday/index'
     });
+    haptic('light');
   }
 });

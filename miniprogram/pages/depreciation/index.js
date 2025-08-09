@@ -73,6 +73,13 @@ Page({
     this.loadItems();
   },
 
+  onTabItemTap() {
+    const prefs = wx.getStorageSync('zl_prefs') || {};
+    if (prefs.hapticsEnabled) {
+      haptic('light');
+    }
+  },
+
   /**
    * 加载主题
    */
