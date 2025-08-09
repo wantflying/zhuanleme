@@ -1,0 +1,29 @@
+<!--components/odometer/index.wxml-->
+<view class="odometer-container">
+  <!-- 前缀符号 -->
+  <view class="odometer-prefix">{{prefix}}</view>
+  
+  <!-- 数字列表 -->
+  <view class="odometer-digits">
+    <view 
+      wx:for="{{digitList}}" 
+      wx:key="id"
+      class="odometer-digit {{item.type === 'decimal_point' ? 'decimal-point' : ''}}"
+      data-id="{{item.id}}"
+      style="width: {{item.type === 'decimal_point' ? '20rpx' : digitWidth + 'rpx'}}; height: {{digitHeight}}rpx;"
+    >
+      <view wx:if="{{item.type === 'decimal_point'}}" class="decimal-point-text">.</view>
+      <view wx:else class="digit-container">
+        <!-- 数字滚动容器 -->
+        <view class="digit-roller">
+          <!-- 所有可能的数字0-9 -->
+          <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="num" wx:key="*this" 
+                class="digit-item {{num === item.current ? 'digit-current' : ''}}"
+                style="height: {{digitHeight}}rpx; line-height: {{digitHeight}}rpx;">
+            {{num}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

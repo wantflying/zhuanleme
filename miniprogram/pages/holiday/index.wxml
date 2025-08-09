@@ -1,0 +1,139 @@
+<!--pages/holiday/index.wxml-->
+<view class="container {{themeClass}}">
+  <!-- 顶部操作栏 -->
+  <view class="header-bar card">
+    <view class="year-selector">
+      <text class="selector-label">查看年份:</text>
+      <picker range="{{yearRange}}" 
+              value="{{yearRange.indexOf(currentYear)}}"
+              bindchange="onYearChange">
+        <view class="year-display">{{currentYear}}年</view>
+      </picker>
+    </view>
+    
+    <view class="header-actions">
+      <view class="action-icon" bindtap="refreshData">🔄</view>
+      <view class="action-icon" bindtap="viewInstructions">❓</view>
+    </view>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="stats-card card">
+    <view class="stats-title">数据统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-number">{{stats.totalHolidays}}</view>
+        <view class="stat-label">获取节假日</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{stats.totalWorkdays}}</view>
+        <view class="stat-label">获取调休日</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{stats.appliedHolidays}}</view>
+        <view class="stat-label">已应用节假日</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{stats.appliedWorkdays}}</view>
+        <view class="stat-label">已应用调休日</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 节假日数据列表 -->
+  <view class="holiday-list">
+    <view wx:if="{{loading}}" class="loading-card card">
+      <view class="loading-icon">⏳</view>
+      <view class="loading-text">正在获取节假日数据...</view>
+    </view>
+    
+    <view wx:else>
+      <view wx:for="{{holidayData}}" wx:key="year" class="year-card card fade-in">
+        <view class="year-header">
+          <view class="year-title">{{item.year}}年</view>
+          <view class="year-source">数据源: {{item.source === 'timor' ? 'Timor' : 'Nager'}}</view>
+        </view>
+        
+        <!-- 节假日列表 -->
+        <view wx:if="{{item.holidays.length > 0}}" class="holiday-section">
+          <view class="section-header" 
+                bindtap="viewHolidayDetail" 
+                data-year="{{item.year}}" 
+                data-type="holidays">
+            <text class="section-title">节假日 ({{item.holidays.length}}个)</text>
+            <text class="section-arrow">👁️</text>
+          </view>
+          
+          <view class="holiday-items">
+            <view wx:for="{{item.holidays}}" 
+                  wx:for-item="holiday" 
+                  wx:key="date" 
+                  class="holiday-item holiday-type">
+              <view class="holiday-date">{{holiday.date}}</view>
+              <view class="holiday-name">{{holiday.name}}</view>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 调休日列表 -->
+        <view wx:if="{{item.workdays.length > 0}}" class="workday-section">
+          <view class="section-header" 
+                bindtap="viewHolidayDetail" 
+                data-year="{{item.year}}" 
+                data-type="workdays">
+            <text class="section-title">调休日 ({{item.workdays.length}}个)</text>
+            <text class="section-arrow">👁️</text>
+          </view>
+          
+          <view class="workday-items">
+            <view wx:for="{{item.workdays}}" 
+                  wx:for-item="workday" 
+                  wx:key="date" 
+                  class="workday-item workday-type">
+              <view class="workday-date">{{workday.date}}</view>
+              <view class="workday-name">{{workday.name}}</view>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 空数据提示 -->
+        <view wx:if="{{item.holidays.length === 0 && item.workdays.length === 0}}" 
+              class="empty-year">
+          <text>暂无{{item.year}}年的节假日数据</text>
+        </view>
+      </view>
+      
+      <!-- 无数据提示 -->
+      <view wx:if="{{holidayData.length === 0}}" class="empty-state card">
+        <view class="empty-icon">📅</view>
+        <view class="empty-text">暂无节假日数据</view>
+        <view class="empty-desc">点击刷新按钮获取最新数据</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作按钮 -->
+  <view class="bottom-actions">
+    <view class="action-button primary" bindtap="applyHolidaySettings">
+      <text class="button-icon">✅</text>
+      <text class="button-text">应用到偏好</text>
+    </view>
+    
+    <view class="action-button secondary" bindtap="clearHolidaySettings">
+      <text class="button-icon">🗑️</text>
+      <text class="button-text">清除设置</text>
+    </view>
+    
+    <view class="action-button info" bindtap="exportHolidayData">
+      <text class="button-icon">📋</text>
+      <text class="button-text">导出数据</text>
+    </view>
+  </view>
+
+  <!-- 说明文字 -->
+  <view class="help-text">
+    <text class="help-item">• 应用后将影响"今日收益"和"退休倒计时"的精确计算</text>
+    <text class="help-item">• 数据来源于第三方API，仅供参考</text>
+    <text class="help-item">• 建议每年更新一次节假日数据</text>
+  </view>
+</view>

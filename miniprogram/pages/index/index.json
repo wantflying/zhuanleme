@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "砖了么",
+  "usingComponents": {
+    "odometer": "../../components/odometer/index"
+  }
+}

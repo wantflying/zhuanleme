@@ -1,0 +1,553 @@
+/* pages/retirement/index.wxss */
+
+/* 头部卡片 */
+.header-card {
+  margin-bottom: 20rpx;
+}
+
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.age-display {
+  display: flex;
+  align-items: baseline;
+}
+
+.current-age {
+  font-size: 96rpx;
+  font-weight: bold;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+}
+
+.age-label {
+  font-size: 36rpx;
+  color: #666;
+  margin-left: 10rpx;
+}
+
+.retirement-info {
+  text-align: right;
+}
+
+.retirement-age {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.mode-switch {
+  padding: 12rpx 24rpx;
+  background: #28a745;
+  color: white;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+/* 人生进度 */
+.life-progress {
+  margin-top: 20rpx;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.progress-bar {
+  height: 20rpx;
+  background: #e9ecef;
+  border-radius: 10rpx;
+  overflow: hidden;
+  margin-bottom: 15rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 10rpx;
+  transition: width 0.5s ease;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 倒计时展示 */
+.countdown-display {
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.countdown-main {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdown-number {
+  font-size: 64rpx;
+  font-weight: bold;
+  color: #dc3545;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 10rpx;
+}
+
+.countdown-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.countdown-detail {
+  border-top: 2rpx solid #f0f0f0;
+  padding-top: 20rpx;
+}
+
+.detail-text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.retirement-date {
+  font-size: 26rpx;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+/* 工作统计 */
+.work-stats {
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25rpx;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 25rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.stat-icon {
+  font-size: 48rpx;
+  margin-bottom: 15rpx;
+}
+
+.stat-number {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+  font-family: 'Courier New', monospace;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 里程碑 */
+.milestones {
+  margin-bottom: 30rpx;
+}
+
+.milestone-list {
+  margin-top: 20rpx;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.milestone-item:last-child {
+  border-bottom: none;
+}
+
+.milestone-item.completed {
+  background: rgba(40, 167, 69, 0.1);
+  border-radius: 8rpx;
+  padding: 20rpx 15rpx;
+  margin-bottom: 10rpx;
+}
+
+.milestone-age {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  width: 120rpx;
+}
+
+.milestone-desc {
+  flex: 1;
+  font-size: 28rpx;
+  color: #666;
+  margin-left: 20rpx;
+}
+
+.milestone-status {
+  font-size: 36rpx;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15rpx;
+  margin-bottom: 40rpx;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25rpx 15rpx;
+  border-radius: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn.primary {
+  background: #667eea;
+  color: white;
+}
+
+.action-btn.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.action-btn.success {
+  background: #28a745;
+  color: white;
+}
+
+.action-btn.info {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-icon {
+  font-size: 36rpx;
+  margin-bottom: 8rpx;
+}
+
+.btn-text {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+/* 设置面板 */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.settings-panel.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.settings-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20rpx 20rpx 0 0;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.settings-panel.show .settings-content {
+  transform: translateY(0);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.settings-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.close-btn {
+  font-size: 48rpx;
+  color: #666;
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-body {
+  flex: 1;
+  padding: 40rpx 50rpx;
+  max-height: calc(85vh - 240rpx);
+  overflow-y: auto;
+}
+
+.setting-section {
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f8f9fa;
+  min-height: 120rpx;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+  font-weight: 500;
+}
+
+.setting-input {
+  width: 300rpx;
+  height: 80rpx;
+  padding: 0 25rpx;
+  border: 3rpx solid #e9ecef;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  text-align: right;
+  background: white;
+  box-sizing: border-box;
+  line-height: 80rpx;
+}
+
+.setting-input:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3rpx rgba(102, 126, 234, 0.1);
+}
+
+.setting-input:active {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.picker-display {
+  width: 300rpx;
+  height: 80rpx;
+  padding: 0 25rpx;
+  border: 3rpx solid #e9ecef;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  color: #333;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  line-height: 80rpx;
+}
+
+.setting-help {
+  margin-top: 15rpx;
+  padding: 15rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+}
+
+.setting-help text {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+}
+
+.setting-help text:last-child {
+  margin-bottom: 0;
+}
+
+.settings-footer {
+  display: flex;
+  gap: 20rpx;
+  padding: 40rpx;
+  border-top: 2rpx solid #f0f0f0;
+}
+
+.setting-btn {
+  flex: 1;
+  padding: 25rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.setting-btn.primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.setting-btn.secondary {
+  background: #f8f9fa;
+  color: #333;
+  border: 2rpx solid #e9ecef;
+}
+
+.setting-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 像素风主题适配 */
+.theme-pixel .stat-box {
+  border-radius: 0;
+  border: 2rpx solid;
+  box-shadow: 4rpx 4rpx 0;
+}
+
+.theme-pixel .milestone-item.completed {
+  border-radius: 0;
+  border: 2rpx solid;
+  box-shadow: 2rpx 2rpx 0;
+}
+
+.theme-pixel .action-btn {
+  border-radius: 0;
+  border: 4rpx solid;
+  box-shadow: 6rpx 6rpx 0;
+}
+
+.theme-pixel .mode-switch {
+  border-radius: 0;
+  border: 3rpx solid;
+  box-shadow: 3rpx 3rpx 0;
+}
+
+.theme-pixel .progress-bar,
+.theme-pixel .progress-fill {
+  border-radius: 0;
+}
+
+.theme-pixel .setting-input,
+.theme-pixel .picker-display {
+  border-radius: 0;
+  border-width: 3rpx;
+}
+
+/* 薄荷色配色 */
+.theme-pixel-mint .stat-box {
+  border-color: #4ecdc4;
+  box-shadow: 4rpx 4rpx 0 #4ecdc4;
+}
+
+.theme-pixel-mint .action-btn {
+  border-color: #4ecdc4;
+  box-shadow: 6rpx 6rpx 0 #4ecdc4;
+}
+
+.theme-pixel-mint .mode-switch {
+  background: #4ecdc4;
+  border-color: #2d9cdb;
+  box-shadow: 3rpx 3rpx 0 #2d9cdb;
+}
+
+/* 日落色配色 */
+.theme-pixel-sunset .stat-box {
+  border-color: #ff6b6b;
+  box-shadow: 4rpx 4rpx 0 #ff6b6b;
+}
+
+.theme-pixel-sunset .action-btn {
+  border-color: #ff6b6b;
+  box-shadow: 6rpx 6rpx 0 #ff6b6b;
+}
+
+.theme-pixel-sunset .mode-switch {
+  background: #ff6b6b;
+  border-color: #e55a5a;
+  box-shadow: 3rpx 3rpx 0 #e55a5a;
+}
+
+/* 葡萄色配色 */
+.theme-pixel-grape .stat-box {
+  border-color: #9b59b6;
+  box-shadow: 4rpx 4rpx 0 #9b59b6;
+}
+
+.theme-pixel-grape .action-btn {
+  border-color: #9b59b6;
+  box-shadow: 6rpx 6rpx 0 #9b59b6;
+}
+
+.theme-pixel-grape .mode-switch {
+  background: #9b59b6;
+  border-color: #8e44ad;
+  box-shadow: 3rpx 3rpx 0 #8e44ad;
+}

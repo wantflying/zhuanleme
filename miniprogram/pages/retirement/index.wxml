@@ -1,0 +1,216 @@
+<!--pages/retirement/index.wxml-->
+<view class="container {{themeClass}}">
+  <!-- 头部信息 -->
+  <view class="header-card card">
+    <view class="header-info">
+      <view class="age-display">
+        <text class="current-age">{{ageInfo.currentAge}}</text>
+        <text class="age-label">岁</text>
+      </view>
+      <view class="retirement-info">
+        <view class="retirement-age">目标退休年龄: {{ageInfo.retirementAge}}岁</view>
+        <view class="mode-switch" bindtap="toggleRetirementMode">
+          {{prefs.retirementMode === 'approximate' ? '近似模式' : '精确模式'}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 进度条 -->
+    <view class="life-progress">
+      <view class="progress-info">
+        <text>人生进度</text>
+        <text>{{chartData.progressPercent}}%</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{chartData.progressPercent}}%"></view>
+      </view>
+      <view class="progress-labels">
+        <text>18岁工作</text>
+        <text>{{ageInfo.retirementAge}}岁退休</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 倒计时展示 -->
+  <view class="countdown-display card">
+    <view class="countdown-main">
+      <view class="countdown-item">
+        <view class="countdown-number">{{retirement.daysToRetirement}}</view>
+        <view class="countdown-label">天</view>
+      </view>
+      
+      <view class="countdown-item">
+        <view class="countdown-number">{{ageInfo.yearsToRetirement}}</view>
+        <view class="countdown-label">年</view>
+      </view>
+      
+      <view class="countdown-item">
+        <view class="countdown-number">{{ageInfo.monthsToRetirement}}</view>
+        <view class="countdown-label">月</view>
+      </view>
+    </view>
+    
+    <view class="countdown-detail">
+      <view class="detail-text">距离退休还有</view>
+      <view class="retirement-date">预计退休日期: {{retirement.retirementDate}}</view>
+    </view>
+  </view>
+
+  <!-- 工作统计 -->
+  <view class="work-stats card">
+    <view class="card-title">工作统计</view>
+    
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-icon">📅</view>
+        <view class="stat-number">{{retirement.workdaysToRetirement}}</view>
+        <view class="stat-label">剩余工作日</view>
+      </view>
+      
+      <view class="stat-box">
+        <view class="stat-icon">⏰</view>
+        <view class="stat-number">{{retirement.workhourToRetirement}}</view>
+        <view class="stat-label">剩余工作时</view>
+      </view>
+      
+      <view class="stat-box">
+        <view class="stat-icon">🎯</view>
+        <view class="stat-number">{{calcData.workdaysFromHours}}</view>
+        <view class="stat-label">工作日转换</view>
+      </view>
+      
+      <view class="stat-box">
+        <view class="stat-icon">📈</view>
+        <view class="stat-number">{{calcData.remainingWorkYears}}</view>
+        <view class="stat-label">剩余工作年</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 里程碑 -->
+  <view class="milestones card">
+    <view class="card-title">重要里程碑</view>
+    
+    <view class="milestone-list">
+      <view class="milestone-item {{ageInfo.currentAge >= 30 ? 'completed' : ''}}">
+        <view class="milestone-age">30岁</view>
+        <view class="milestone-desc">职业发展期</view>
+        <view class="milestone-status">{{ageInfo.currentAge >= 30 ? '✅' : '⏳'}}</view>
+      </view>
+      
+      <view class="milestone-item {{ageInfo.currentAge >= 40 ? 'completed' : ''}}">
+        <view class="milestone-age">40岁</view>
+        <view class="milestone-desc">事业巅峰期</view>
+        <view class="milestone-status">{{ageInfo.currentAge >= 40 ? '✅' : '⏳'}}</view>
+      </view>
+      
+      <view class="milestone-item {{ageInfo.currentAge >= 50 ? 'completed' : ''}}">
+        <view class="milestone-age">50岁</view>
+        <view class="milestone-desc">财富积累期</view>
+        <view class="milestone-status">{{ageInfo.currentAge >= 50 ? '✅' : '⏳'}}</view>
+      </view>
+      
+      <view class="milestone-item {{ageInfo.currentAge >= ageInfo.retirementAge ? 'completed' : ''}}">
+        <view class="milestone-age">{{ageInfo.retirementAge}}岁</view>
+        <view class="milestone-desc">享受退休生活</view>
+        <view class="milestone-status">{{ageInfo.currentAge >= ageInfo.retirementAge ? '🎉' : '🎯'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <view class="action-btn secondary" bindtap="refreshData">
+      <text class="btn-icon">🔄</text>
+      <text class="btn-text">刷新</text>
+    </view>
+    
+    <view class="action-btn primary" bindtap="showSettingsPanel">
+      <text class="btn-icon">⚙️</text>
+      <text class="btn-text">设置</text>
+    </view>
+    
+    <view class="action-btn success" bindtap="shareRetirement">
+      <text class="btn-icon">📋</text>
+      <text class="btn-text">分享</text>
+    </view>
+    
+    <view class="action-btn info" bindtap="viewRetirementPlan">
+      <text class="btn-icon">💡</text>
+      <text class="btn-text">建议</text>
+    </view>
+  </view>
+
+  <!-- 设置面板 -->
+  <view class="settings-panel {{showSettings ? 'show' : ''}}" bindtap="hideSettingsPanel">
+    <view class="settings-content" catchtap="stopPropagation">
+      <view class="settings-header">
+        <view class="settings-title">退休设置</view>
+        <view class="close-btn" bindtap="hideSettingsPanel">×</view>
+      </view>
+      
+      <scroll-view scroll-y class="settings-body">
+        <view class="setting-section">
+          <view class="section-title">基本信息</view>
+          
+          <view class="setting-item">
+            <text class="setting-label">当前年龄</text>
+            <input class="setting-input" 
+                   type="number"
+                   placeholder="请输入当前年龄"
+                   value="{{tempPrefs.currentAge}}"
+                   data-field="currentAge"
+                   bindinput="onTempPrefChange"
+                   confirm-type="done" />
+          </view>
+          
+          <view class="setting-item">
+            <text class="setting-label">退休年龄</text>
+            <input class="setting-input" 
+                   type="number"
+                   placeholder="请输入退休年龄"
+                   value="{{tempPrefs.retirementAge}}"
+                   data-field="retirementAge"
+                   bindinput="onTempPrefChange"
+                   confirm-type="done" />
+          </view>
+          
+          <view class="setting-item">
+            <text class="setting-label">生日日期 (可选)</text>
+            <picker mode="date" 
+                    value="{{tempPrefs.birthday}}"
+                    data-field="birthday"
+                    bindchange="onDateChange">
+              <view class="picker-display">{{tempPrefs.birthday || '选择生日(更精确)'}}</view>
+            </picker>
+          </view>
+        </view>
+        
+        <view class="setting-section">
+          <view class="section-title">计算设置</view>
+          
+          <view class="setting-item">
+            <text class="setting-label">计算模式</text>
+            <picker range="{{retirementModeRange}}"
+                    value="{{tempPrefs.retirementMode === 'approximate' ? 0 : 1}}"
+                    data-field="retirementMode"
+                    data-options="{{retirementModeOptions}}"
+                    bindchange="onPickerChange">
+              <view class="picker-display">{{retirementModeRange[tempPrefs.retirementMode === 'approximate' ? 0 : 1]}}</view>
+            </picker>
+          </view>
+          
+          <view class="setting-help">
+            <text>• 近似模式：按工作日比例估算</text>
+            <text>• 精确模式：考虑节假日和调休</text>
+          </view>
+        </view>
+      </scroll-view>
+      
+      <view class="settings-footer">
+        <view class="setting-btn secondary" bindtap="hideSettingsPanel">取消</view>
+        <view class="setting-btn primary" bindtap="saveSettings">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,401 @@
+/* pages/holiday/index.wxss */
+
+/* 顶部操作栏 */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.year-selector {
+  display: flex;
+  align-items: center;
+}
+
+.selector-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 15rpx;
+}
+
+.year-display {
+  padding: 15rpx 25rpx;
+  background: #667eea;
+  color: white;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15rpx;
+}
+
+.action-icon {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 32rpx;
+  transition: all 0.3s ease;
+}
+
+.action-icon:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 统计卡片 */
+.stats-card {
+  margin-bottom: 20rpx;
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15rpx;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.stat-number {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+  font-family: 'Courier New', monospace;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 加载状态 */
+.loading-card {
+  text-align: center;
+  padding: 80rpx 40rpx;
+}
+
+.loading-icon {
+  font-size: 96rpx;
+  margin-bottom: 20rpx;
+}
+
+.loading-text {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 节假日列表 */
+.holiday-list {
+  margin-bottom: 120rpx;
+}
+
+.year-card {
+  margin-bottom: 20rpx;
+}
+
+.year-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.year-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.year-source {
+  font-size: 24rpx;
+  color: #666;
+  padding: 6rpx 12rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+}
+
+/* 节假日区块 */
+.holiday-section,
+.workday-section {
+  margin-bottom: 25rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+  padding: 15rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 10rpx;
+  transition: all 0.3s ease;
+}
+
+.section-header:active {
+  background: #e9ecef;
+  transform: scale(0.98);
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.section-arrow {
+  font-size: 24rpx;
+}
+
+.holiday-items,
+.workday-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10rpx;
+}
+
+.holiday-item,
+.workday-item {
+  padding: 15rpx;
+  border-radius: 8rpx;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.holiday-item.holiday-type {
+  background: #ffe6e6;
+  border: 2rpx solid #ffcccc;
+}
+
+.workday-item.workday-type {
+  background: #e6f3ff;
+  border: 2rpx solid #cce6ff;
+}
+
+.holiday-date,
+.workday-date {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+  font-family: 'Courier New', monospace;
+}
+
+.holiday-name,
+.workday-name {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 空状态 */
+.empty-year {
+  text-align: center;
+  padding: 40rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 底部操作按钮 */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  gap: 15rpx;
+}
+
+.action-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 15rpx;
+  border-radius: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.action-button:active {
+  transform: scale(0.95);
+}
+
+.action-button.primary {
+  background: #28a745;
+  color: white;
+}
+
+.action-button.secondary {
+  background: #dc3545;
+  color: white;
+}
+
+.action-button.info {
+  background: #17a2b8;
+  color: white;
+}
+
+.button-icon {
+  font-size: 32rpx;
+  margin-bottom: 8rpx;
+}
+
+.button-text {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+/* 帮助文字 */
+.help-text {
+  padding: 20rpx;
+  margin-top: 20rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12rpx;
+  margin-bottom: 40rpx;
+}
+
+.help-item {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 8rpx;
+}
+
+.help-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 像素风主题适配 */
+.theme-pixel .year-display {
+  border-radius: 0;
+  border: 3rpx solid;
+  box-shadow: 3rpx 3rpx 0;
+}
+
+.theme-pixel .action-icon {
+  border-radius: 0;
+  border: 2rpx solid;
+  box-shadow: 2rpx 2rpx 0;
+}
+
+.theme-pixel .stat-item {
+  border-radius: 0;
+  border: 2rpx solid;
+  box-shadow: 4rpx 4rpx 0;
+}
+
+.theme-pixel .section-header {
+  border-radius: 0;
+  border: 2rpx solid;
+}
+
+.theme-pixel .holiday-item,
+.theme-pixel .workday-item {
+  border-radius: 0;
+  border-width: 3rpx;
+}
+
+.theme-pixel .action-button {
+  border-radius: 0;
+  border: 4rpx solid;
+  box-shadow: 4rpx 4rpx 0;
+}
+
+/* 薄荷色配色 */
+.theme-pixel-mint .year-display {
+  background: #4ecdc4;
+  border-color: #2d9cdb;
+  box-shadow: 3rpx 3rpx 0 #2d9cdb;
+}
+
+.theme-pixel-mint .stat-item {
+  border-color: #4ecdc4;
+  box-shadow: 4rpx 4rpx 0 #4ecdc4;
+}
+
+.theme-pixel-mint .action-button {
+  border-color: #4ecdc4;
+  box-shadow: 4rpx 4rpx 0 #4ecdc4;
+}
+
+/* 日落色配色 */
+.theme-pixel-sunset .year-display {
+  background: #ff6b6b;
+  border-color: #e55a5a;
+  box-shadow: 3rpx 3rpx 0 #e55a5a;
+}
+
+.theme-pixel-sunset .stat-item {
+  border-color: #ff6b6b;
+  box-shadow: 4rpx 4rpx 0 #ff6b6b;
+}
+
+.theme-pixel-sunset .action-button {
+  border-color: #ff6b6b;
+  box-shadow: 4rpx 4rpx 0 #ff6b6b;
+}
+
+/* 葡萄色配色 */
+.theme-pixel-grape .year-display {
+  background: #9b59b6;
+  border-color: #8e44ad;
+  box-shadow: 3rpx 3rpx 0 #8e44ad;
+}
+
+.theme-pixel-grape .stat-item {
+  border-color: #9b59b6;
+  box-shadow: 4rpx 4rpx 0 #9b59b6;
+}
+
+.theme-pixel-grape .action-button {
+  border-color: #9b59b6;
+  box-shadow: 4rpx 4rpx 0 #9b59b6;
+}

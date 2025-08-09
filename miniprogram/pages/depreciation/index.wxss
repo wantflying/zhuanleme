@@ -1,0 +1,619 @@
+/* pages/depreciation/index.wxss */
+
+/* 统计头部 */
+.stats-header {
+  margin-bottom: 20rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.stat-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 筛选栏 */
+.filter-bar {
+  margin-bottom: 20rpx;
+}
+
+.filter-section,
+.sort-section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+  display: block;
+}
+
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.filter-tag {
+  padding: 12rpx 24rpx;
+  background: #f8f9fa;
+  border: 2rpx solid #e9ecef;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.filter-tag.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.sort-buttons {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+.sort-btn {
+  padding: 12rpx 20rpx;
+  background: #f8f9fa;
+  border: 2rpx solid #e9ecef;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.sort-btn.active {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+/* 操作区域 */
+.action-section {
+  margin-top: 20rpx;
+}
+
+.action-buttons-inline {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10rpx;
+}
+
+.action-btn-small {
+  padding: 8rpx 16rpx;
+  background: #f8f9fa;
+  border: 2rpx solid #e9ecef;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.action-btn-small.danger {
+  background: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.action-btn-small:active {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+/* 物品列表 */
+.items-list {
+  margin-bottom: 100rpx;
+}
+
+.item-wrapper {
+  margin-bottom: 20rpx;
+}
+
+.item-slide-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+  border: 2rpx solid rgba(102, 126, 234, 0.08);
+}
+
+.item-card {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 20rpx;
+  transition: all 0.3s ease;
+  padding: 30rpx;
+}
+
+.item-card.sliding {
+  transition: none;
+}
+
+.item-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid rgba(102, 126, 234, 0.15);
+}
+
+.item-name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #2d3748;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.05);
+}
+
+.item-category {
+  font-size: 24rpx;
+  color: #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(102, 126, 234, 0.08) 100%);
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.2);
+  font-weight: 500;
+}
+
+.item-info {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  padding: 15rpx 20rpx;
+  background: rgba(102, 126, 234, 0.03);
+  border-radius: 12rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.08);
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-item {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.info-item:last-child {
+  margin-right: 0;
+}
+
+.info-item .label {
+  display: block;
+  font-size: 24rpx;
+  color: #718096;
+  margin-bottom: 8rpx;
+  font-weight: 500;
+}
+
+.info-item .value {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.info-item .value.primary {
+  color: #667eea;
+}
+
+.info-item .value.success {
+  color: #28a745;
+}
+
+.info-item .value.warning {
+  color: #ffc107;
+}
+
+.info-item .value.danger {
+  color: #dc3545;
+}
+
+/* 滑动操作按钮 */
+.slide-actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 160rpx;
+  display: flex;
+  z-index: 15;
+}
+
+.action-btn {
+  width: 80rpx;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16rpx;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-btn:active {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+  border-radius: 0 0 0 0;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  border-radius: 0 20rpx 20rpx 0;
+}
+
+.action-icon {
+  font-size: 20rpx;
+  margin-bottom: 2rpx;
+}
+
+.action-text {
+  font-size: 14rpx;
+  font-weight: 500;
+}
+
+
+
+
+
+.slide-action .action-btn:active {
+  opacity: 0.8;
+}
+
+/* 保留原有的item-actions作为备用 */
+.item-actions {
+  display: none; /* 隐藏原有的按钮 */
+  gap: 15rpx;
+}
+
+.action-btn.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.action-btn.danger {
+  background: #dc3545;
+  color: white;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 添加按钮 */
+.add-button {
+  position: fixed;
+  right: 40rpx;
+  bottom: 40rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.add-button:active {
+  transform: scale(0.9);
+}
+
+.add-icon {
+  font-size: 64rpx;
+  color: white;
+  font-weight: bold;
+}
+
+/* 表单模态框 */
+.form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.form-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.form-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20rpx 20rpx 0 0;
+  max-height: 85vh;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.form-modal.show .form-content {
+  transform: translateY(0);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.form-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.close-btn {
+  font-size: 48rpx;
+  color: #666;
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-body {
+  flex: 1;
+  padding: 30rpx 40rpx;
+  overflow-y: auto;
+  max-height: calc(85vh - 160rpx);
+  min-height: 400rpx;
+}
+
+.form-group {
+  margin-bottom: 30rpx;
+}
+
+.form-group:last-child {
+  margin-bottom: 20rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+  display: block;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 25rpx;
+  border: 2rpx solid #e9ecef;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  background: white;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  height: 150rpx;
+  resize: none;
+}
+
+.picker-display {
+  padding: 25rpx;
+  border: 2rpx solid #e9ecef;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+  background: white;
+}
+
+.form-slider {
+  margin: 20rpx 0;
+}
+
+.form-help {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 10rpx;
+  display: block;
+}
+
+.form-footer {
+  display: flex;
+  gap: 20rpx;
+  padding: 30rpx 40rpx;
+  border-top: 2rpx solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.form-btn {
+  flex: 1;
+  padding: 25rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.form-btn.primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.form-btn.secondary {
+  background: #f8f9fa;
+  color: #333;
+  border: 2rpx solid #e9ecef;
+}
+
+.form-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 像素风主题适配 */
+.theme-pixel .stat-item {
+  border-radius: 0;
+  border: 2rpx solid;
+  box-shadow: 4rpx 4rpx 0;
+}
+
+.theme-pixel .filter-tag,
+.theme-pixel .sort-btn {
+  border-radius: 0;
+  border-width: 3rpx;
+}
+
+.theme-pixel .item-card {
+  border-radius: 0;
+  border: 4rpx solid;
+  box-shadow: 8rpx 8rpx 0;
+}
+
+.theme-pixel .action-btn {
+  border-radius: 0;
+  border: 3rpx solid;
+  box-shadow: 3rpx 3rpx 0;
+}
+
+.theme-pixel .add-button {
+  border-radius: 0;
+  border: 4rpx solid;
+  box-shadow: 8rpx 8rpx 0;
+}
+
+.theme-pixel .form-content {
+  border-radius: 0;
+}
+
+.theme-pixel .form-input,
+.theme-pixel .form-textarea,
+.theme-pixel .picker-display {
+  border-radius: 0;
+  border-width: 3rpx;
+}
+
+/* 薄荷色配色 */
+.theme-pixel-mint .stat-item {
+  border-color: #4ecdc4;
+  box-shadow: 4rpx 4rpx 0 #4ecdc4;
+}
+
+.theme-pixel-mint .item-card {
+  border-color: #4ecdc4;
+  box-shadow: 8rpx 8rpx 0 #4ecdc4;
+}
+
+.theme-pixel-mint .add-button {
+  background: #4ecdc4;
+  border-color: #2d9cdb;
+  box-shadow: 8rpx 8rpx 0 #2d9cdb;
+}
+
+/* 日落色配色 */
+.theme-pixel-sunset .stat-item {
+  border-color: #ff6b6b;
+  box-shadow: 4rpx 4rpx 0 #ff6b6b;
+}
+
+.theme-pixel-sunset .item-card {
+  border-color: #ff6b6b;
+  box-shadow: 8rpx 8rpx 0 #ff6b6b;
+}
+
+.theme-pixel-sunset .add-button {
+  background: #ff6b6b;
+  border-color: #e55a5a;
+  box-shadow: 8rpx 8rpx 0 #e55a5a;
+}
+
+/* 葡萄色配色 */
+.theme-pixel-grape .stat-item {
+  border-color: #9b59b6;
+  box-shadow: 4rpx 4rpx 0 #9b59b6;
+}
+
+.theme-pixel-grape .item-card {
+  border-color: #9b59b6;
+  box-shadow: 8rpx 8rpx 0 #9b59b6;
+}
+
+.theme-pixel-grape .add-button {
+  background: #9b59b6;
+  border-color: #8e44ad;
+  box-shadow: 8rpx 8rpx 0 #8e44ad;
+}

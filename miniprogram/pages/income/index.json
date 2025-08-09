@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "今日收益",
+  "usingComponents": {
+    "odometer": "../../components/odometer/index"
+  }
+}

@@ -1,0 +1,236 @@
+<!--pages/depreciation/index.wxml-->
+<view class="container {{themeClass}}">
+  <!-- 头部统计 -->
+  <view class="stats-header card">
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value">{{stats.totalItems}}</view>
+        <view class="stat-label">物品总数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">¥{{stats.totalCost}}</view>
+        <view class="stat-label">总成本</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">¥{{stats.totalUsedCost}}</view>
+        <view class="stat-label">已用成本</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">¥{{stats.avgDailyUsageCost}}</view>
+        <view class="stat-label">日均成本</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选和排序 -->
+  <view class="filter-bar card">
+    <view class="filter-section">
+      <text class="section-title">筛选:</text>
+      <view class="filter-tags">
+        <!-- 系统默认筛选 -->
+        <view class="filter-tag {{filterType === 'all' ? 'active' : ''}}" 
+              data-type="all" bindtap="changeFilter">全部</view>
+        <view class="filter-tag {{filterType === 'uncategorized' ? 'active' : ''}}" 
+              data-type="uncategorized" bindtap="changeFilter">未分类</view>
+        
+        <!-- 用户自定义分类筛选 -->
+        <view wx:for="{{availableCategories}}" wx:key="*this"
+              class="filter-tag {{filterType === 'category:' + item ? 'active' : ''}}" 
+              data-type="category:{{item}}" bindtap="changeFilter">{{item}}</view>
+      </view>
+    </view>
+    
+    <view class="sort-section">
+      <text class="section-title">排序:</text>
+      <view class="sort-buttons">
+        <view class="sort-btn {{sortBy === 'purchaseDate' ? 'active' : ''}}" 
+              data-sort="purchaseDate" bindtap="changeSort">
+          日期 {{sortBy === 'purchaseDate' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}
+        </view>
+        <view class="sort-btn {{sortBy === 'price' ? 'active' : ''}}" 
+              data-sort="price" bindtap="changeSort">
+          价格 {{sortBy === 'price' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}
+        </view>
+        <view class="sort-btn {{sortBy === 'usedCost' ? 'active' : ''}}" 
+              data-sort="usedCost" bindtap="changeSort">
+          已用成本 {{sortBy === 'usedCost' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}
+        </view>
+      </view>
+    </view>
+    
+    <view class="action-section">
+      <view class="action-buttons-inline">
+        <view class="action-btn-small danger" bindtap="clearAllData">
+          🗑️ 清除数据
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 物品列表 -->
+  <view class="items-list">
+    <view wx:for="{{items}}" wx:key="id" class="item-wrapper">
+      <view class="item-slide-container">        
+        <!-- 滑动操作按钮 - 右侧 -->
+        <view class="slide-actions" wx:if="{{item.id === activeSlideId && slideX < -40}}">
+          <view class="action-btn edit-btn" catchtap="editItem" data-id="{{item.id}}">
+            <text class="action-icon">✏️</text>
+            <text class="action-text">编辑</text>
+          </view>
+          <view class="action-btn delete-btn" catchtap="deleteItem" data-id="{{item.id}}">
+            <text class="action-icon">🗑️</text>
+            <text class="action-text">删除</text>
+          </view>
+        </view>
+        
+        <!-- 主内容区域 -->
+        <view class="item-card card fade-in {{item.id === activeSlideId ? 'sliding' : ''}}"
+              bindtouchstart="onTouchStart"
+              bindtouchmove="onTouchMove"
+              bindtouchend="onTouchEnd"
+              data-id="{{item.id}}"
+              style="transform: translateX({{item.id === activeSlideId ? slideX : 0}}rpx)">
+          
+          <view class="item-header" bindtap="viewItemDetail" data-id="{{item.id}}">
+            <view class="item-name">{{item.name}}</view>
+            <view class="item-category">{{item.category || '未分类'}}</view>
+          </view>
+          
+          <view class="item-info">
+            <view class="info-row">
+              <view class="info-item">
+                <text class="label">购买价格</text>
+                <text class="value primary">¥{{item.price}}</text>
+              </view>
+              <view class="info-item">
+                <text class="label">使用{{item.usedDays}}天</text>
+                <text class="value">{{item.purchaseDate}}</text>
+              </view>
+            </view>
+            
+            <view class="info-row">
+              <view class="info-item">
+                <text class="label">当前估值</text>
+                <text class="value success">¥{{item.currentValue}}</text>
+              </view>
+              <view class="info-item">
+                <text class="label">已用成本</text>
+                <text class="value warning">¥{{item.usedCost}}</text>
+              </view>
+            </view>
+            
+            <view class="info-row">
+              <view class="info-item">
+                <text class="label">日用成本</text>
+                <text class="value danger">¥{{item.dailyUsageCost}}</text>
+              </view>
+              <view class="info-item">
+                <text class="label">折旧率</text>
+                <text class="value">{{item.depreciationRateDisplay}}%/年</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:if="{{items.length === 0}}" class="empty-state">
+      <view class="empty-icon">📦</view>
+      <view class="empty-text">还没有添加任何物品</view>
+      <view class="empty-desc">点击下方按钮开始记录你的第一件物品吧</view>
+    </view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-button" bindtap="showAddItemForm">
+    <text class="add-icon">+</text>
+  </view>
+
+  <!-- 添加/编辑表单 -->
+  <view class="form-modal {{showAddForm ? 'show' : ''}}" catchtap="hideAddForm">
+    <view class="form-content" catchtap="stopPropagation">
+      <view class="form-header">
+        <view class="form-title">{{editingId ? '编辑物品' : '添加物品'}}</view>
+        <view class="close-btn" bindtap="hideAddForm">×</view>
+      </view>
+      
+      <scroll-view scroll-y class="form-body">
+        <view class="form-group">
+          <text class="form-label">物品名称 *</text>
+          <input class="form-input" 
+                 placeholder="请输入物品名称" 
+                 value="{{addForm.name}}"
+                 data-field="name"
+                 bindinput="onFormInput" />
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">购买价格 *</text>
+          <input class="form-input" 
+                 type="digit"
+                 placeholder="请输入购买价格" 
+                 value="{{addForm.price}}"
+                 data-field="price"
+                 bindinput="onFormInput" />
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">购买日期 *</text>
+          <picker mode="date" 
+                  value="{{addForm.purchaseDate}}"
+                  bindchange="onDateChange">
+            <view class="picker-display">{{addForm.purchaseDate || '选择日期'}}</view>
+          </picker>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">当前价格 (可选)</text>
+          <input class="form-input" 
+                 type="digit"
+                 placeholder="手动设置当前价格" 
+                 value="{{addForm.currentPrice}}"
+                 data-field="currentPrice"
+                 bindinput="onFormInput" />
+          <text class="form-help">不填写将按折旧率自动计算</text>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">年折旧率</text>
+          <slider class="form-slider"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="{{addForm.depreciationRate}}"
+                  data-field="depreciationRate"
+                  bindchange="onSliderChange"
+                  show-value />
+          <text class="form-help">当前: {{formDisplay.depreciationRatePercent}}%</text>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">分类 (可选)</text>
+          <input class="form-input" 
+                 placeholder="如：电子产品、服装等" 
+                 value="{{addForm.category}}"
+                 data-field="category"
+                 bindinput="onFormInput" />
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">备注 (可选)</text>
+          <textarea class="form-textarea" 
+                    placeholder="添加备注信息" 
+                    value="{{addForm.description}}"
+                    data-field="description"
+                    bindinput="onFormInput" />
+        </view>
+      </scroll-view>
+      
+      <view class="form-footer">
+        <view class="form-btn secondary" bindtap="hideAddForm">取消</view>
+        <view class="form-btn primary" bindtap="saveItem">{{editingId ? '保存' : '添加'}}</view>
+      </view>
+    </view>
+  </view>
+</view>

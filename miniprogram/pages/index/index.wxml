@@ -1,0 +1,119 @@
+<!--pages/index/index.wxml-->
+<view class="container {{themeClass}}">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <view class="app-title">砖了么</view>
+    <view class="current-time">{{currentTime}}</view>
+    <view class="settings-btn" bindtap="showSettingsPanel">⚙️</view>
+  </view>
+
+  <!-- 今日收益卡片 -->
+  <view class="card income-card" bindtap="navigateToIncome">
+    <view class="card-header">
+      <view class="card-title">今日收益</view>
+      <view class="card-subtitle">{{todayIncome.isTodayWorkday ? '工作日' : '休息日'}}</view>
+    </view>
+    
+    <view class="income-content">
+      <view class="income-amount" animation="{{incomeAnimation}}">
+        <text class="currency">¥</text>
+        <text class="amount">{{todayIncome.todayEarned}}</text>
+      </view>
+      <view class="income-simple-info">
+        <text class="simple-label">点击查看详情</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷导航 -->
+  <view class="nav-grid">
+    <view class="nav-item" bindtap="navigateToDepreciation">
+      <view class="nav-icon">📱</view>
+      <view class="nav-title">物品成本</view>
+      <view class="nav-desc">{{itemStats.totalItems}}件物品</view>
+    </view>
+    
+    <view class="nav-item" bindtap="navigateToRetirement">
+      <view class="nav-icon">⏰</view>
+      <view class="nav-title">退休倒计时</view>
+      <view class="nav-desc">{{retirement.daysToRetirement}}天</view>
+    </view>
+  </view>
+
+  <!-- 统计概览 -->
+  <view class="stats-section">
+    <view class="section-title">数据概览</view>
+    
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value">¥{{itemStats.totalCost}}</view>
+        <view class="stat-label">总购买成本</view>
+      </view>
+      
+      <view class="stat-item">
+        <view class="stat-value">¥{{itemStats.totalUsedCost}}</view>
+        <view class="stat-label">已用成本</view>
+      </view>
+      
+      <view class="stat-item">
+        <view class="stat-value">{{retirement.workdaysToRetirement}}</view>
+        <view class="stat-label">剩余工作日</view>
+      </view>
+      
+      <view class="stat-item">
+        <view class="stat-value">{{retirement.workhourToRetirement}}</view>
+        <view class="stat-label">剩余工作时</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置面板 -->
+  <view class="settings-panel {{showSettings ? 'show' : ''}}" bindtap="hideSettingsPanel">
+    <view class="settings-content" catchtap="stopPropagation">
+      <view class="settings-header">
+        <view class="settings-title">偏好设置</view>
+        <view class="close-btn" bindtap="hideSettingsPanel">×</view>
+      </view>
+      
+      <scroll-view scroll-y class="settings-body">
+        <view class="setting-section">
+          <view class="section-title">主题设置</view>
+          
+          <view class="setting-item">
+            <text class="setting-label">主题风格</text>
+            <picker range="{{['默认主题', '像素风']}}" value="{{prefs.theme === 'pixel' ? 1 : 0}}" bindchange="onThemeChange">
+              <view class="picker-display">{{prefs.theme === 'pixel' ? '像素风' : '默认主题'}}</view>
+            </picker>
+          </view>
+          
+          <view class="setting-item" wx:if="{{prefs.theme === 'pixel'}}">
+            <text class="setting-label">像素风配色</text>
+            <picker range="{{['薄荷色', '日落橙', '葡萄紫', '海洋蓝', '森林绿', '玫瑰金']}}" value="{{getPixelColorIndex(prefs.pixelColor)}}" bindchange="onPixelColorChange">
+              <view class="picker-display">{{getPixelColorLabel(prefs.pixelColor)}}</view>
+            </picker>
+          </view>
+        </view>
+        
+        <view class="setting-section">
+          <view class="section-title">动效设置</view>
+          
+          <view class="setting-item">
+            <view class="setting-label">开启收益动效</view>
+            <switch checked="{{prefs.enableIncomeAnimation}}" bindchange="onAnimationToggle" />
+          </view>
+        </view>
+        
+        <view class="setting-help">
+          <text>• 更多详细设置请到对应功能页面进行配置</text>
+          <text>• 设置会自动保存到本地</text>
+        </view>
+      </scroll-view>
+      
+      <view class="settings-footer">
+        <view class="setting-btn primary" bindtap="hideSettingsPanel">完成</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+
