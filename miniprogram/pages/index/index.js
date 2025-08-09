@@ -92,6 +92,10 @@ Page({
       workStartTime: '09:00',
       workEndTime: '18:00',
       workDaysPerMonth: 22,
+      workDaysPerWeek: 5,
+      workdayMask: [1,2,3,4,5],
+      holidays: [],
+      workdays: [],
       incomeMode: 'average',
       enableIncomeAnimation: false,
       animationType: 'pulse',
@@ -353,23 +357,23 @@ Page({
   },
 
   /**
-   * 一键重置所有数据
+   * 重置整个程序（恢复初次安装状态）
    */
-  resetAllData() {
+  resetProgram() {
     wx.showModal({
-      title: '重置确认',
-      content: '将清空成本/收益/退休等所有数据，且不可恢复，确认继续？',
+      title: '重置程序',
+      content: '将清空本地所有配置与数据，恢复到初次安装状态，并尝试重启小程序，是否继续？',
       success: (res) => {
         if (res.confirm) {
           try {
             wx.removeStorageSync('zl_items');
             wx.removeStorageSync('zl_prefs');
             wx.removeStorageSync('zl_has_data');
+            // 可选：清除其它可能的缓存键
+            try { wx.clearStorageSync && wx.clearStorageSync(); } catch (e) {}
             this.setData({ importText: '' });
-            this.loadPreferences();
-            this.loadItemStats();
-            this.calculateData();
-            wx.showToast({ title: '已重置', icon: 'success' });
+            // 尝试重启：跳转到首页并关闭其它页面
+            wx.reLaunch({ url: '/pages/index/index' });
           } catch (e) {
             wx.showToast({ title: '重置失败', icon: 'none' });
           }

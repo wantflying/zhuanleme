@@ -106,29 +106,3 @@ MIT License
 ---
 
 > 💡 **提示**：这是一个完整的微信小程序项目，包含了所有必要的功能模块和美观的UI界面。可以直接在微信开发者工具中运行和调试。
-
-## 🖼️ 功能页面截图
-
-将你的页面截图放到 `docs/screenshots/` 目录下，README 会自动引用占位文件名。
-
-建议的截图清单（按文件名放置）：
-- 首页总览：`docs/screenshots/home.png`
-- 成本/折旧：`docs/screenshots/depreciation_list.png`
-- 成本-新增/编辑：`docs/screenshots/depreciation_edit.png`
-- 今日收益：`docs/screenshots/income.png`
-- 退休倒计时：`docs/screenshots/retirement.png`
-- 节假日日历：`docs/screenshots/holiday.png`
-
-示例展示：
-
-![首页总览](docs/screenshots/home.png)
-
-![成本/折旧](docs/screenshots/depreciation_list.png)
-
-![成本-新增/编辑](docs/screenshots/depreciation_edit.png)
-
-![今日收益](docs/screenshots/income.png)
-
-![退休倒计时](docs/screenshots/retirement.png)
-
-![节假日日历](docs/screenshots/holiday.png)

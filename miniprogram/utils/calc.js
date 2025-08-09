@@ -56,9 +56,9 @@ function calculateTodayIncome(prefs) {
     workStartTime,
     workEndTime,
     workDaysPerMonth,
-    workdayMask,
-    holidays,
-    workdays,
+    workdayMask = [],
+    holidays = [],
+    workdays = [],
     incomeMode
   } = prefs;
   
@@ -137,7 +137,7 @@ function calculateTodayIncome(prefs) {
  * @returns {number} 本月工作秒数
  */
 function calculateMonthWorkSeconds(prefs) {
-  const { workStartTime, workEndTime, workdayMask, holidays, workdays } = prefs;
+  const { workStartTime, workEndTime, workdayMask = [], holidays = [], workdays = [] } = prefs;
   
   const now = new Date();
   const year = now.getFullYear();
@@ -220,7 +220,7 @@ function calculateMonthWorkdaysCount(prefs) {
  * @returns {Object} 退休倒计时信息
  */
 function calculateRetirement(prefs) {
-  const { retirementAge, birthday, currentAge, retirementMode, workdayMask, holidays, workdays, workStartTime, workEndTime } = prefs;
+  const { retirementAge, birthday, currentAge, retirementMode, workdayMask = [], holidays = [], workdays = [], workStartTime, workEndTime } = prefs;
   
   let retirementDate;
   
@@ -248,7 +248,7 @@ function calculateRetirement(prefs) {
     workhourToRetirement = result.workhours;
   } else {
     // 近似模式
-    const workdaysPerWeek = workdayMask.length;
+    const workdaysPerWeek = (workdayMask || []).length;
     workdaysToRetirement = Math.floor(daysToRetirement * (workdaysPerWeek / 7));
     
     // 计算日工时
@@ -275,7 +275,7 @@ function calculateRetirement(prefs) {
  * @returns {Object} 工作日和工作小时数
  */
 function calculatePreciseRetirement(startDate, endDate, prefs) {
-  const { workdayMask, holidays, workdays: workdaysFromPrefs, workStartTime, workEndTime } = prefs;
+  const { workdayMask = [], holidays = [], workdays: workdaysFromPrefs = [], workStartTime, workEndTime } = prefs;
   
   // 解析工作时间
   const [startHour, startMinute] = workStartTime.split(':').map(Number);

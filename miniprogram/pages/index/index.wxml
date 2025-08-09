@@ -118,8 +118,8 @@
             </view>
           </view>
           <view class="setting-item">
-            <view class="setting-label">一键重置</view>
-            <view class="picker-display danger" bindtap="resetAllData">清空本地数据（含成本/收益/退休）</view>
+            <view class="setting-label">重置程序</view>
+            <view class="picker-display danger" bindtap="resetProgram">重置程序（恢复初始设置并重启）</view>
           </view>
         </view>
         
