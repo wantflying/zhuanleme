@@ -2,15 +2,21 @@
 <view class="container {{themeClass}}">
   <!-- 顶部状态栏 -->
   <view class="status-bar">
-    <view class="app-title">砖了么</view>
-    <view class="current-time">{{currentTime}}</view>
-    <view class="settings-btn" bindtap="showSettingsPanel">⚙️</view>
+    <view class="status-left" bindtap="refreshDailyQuote">
+      <view class="daily-quote">「{{dailyQuote}}」</view>
+    </view>
+    <view class="status-right">
+      <view class="settings-btn plain" bindtap="showSettingsPanel">⚙️</view>
+    </view>
   </view>
 
   <!-- 今日收益卡片 -->
   <view class="card income-card" bindtap="navigateToIncome">
     <view class="card-header">
-      <view class="card-title">今日收益</view>
+      <view class="card-title-row">
+        <view class="card-title">今日收益</view>
+        <view class="card-time">{{currentTime}}</view>
+      </view>
       <view class="card-subtitle">{{todayIncome.isTodayWorkday ? '工作日' : '休息日'}}</view>
     </view>
     
@@ -122,6 +128,13 @@
             <view class="picker-display danger" bindtap="resetProgram">重置程序（恢复初始设置并重启）</view>
           </view>
         </view>
+        <view class="setting-section">
+          <view class="section-title">帮助</view>
+          <view class="setting-item">
+            <view class="setting-label">操作说明</view>
+            <view class="picker-display" bindtap="showHelpPanel">查看简要说明</view>
+          </view>
+        </view>
         
         <view class="setting-help">
           <text>• 更多详细设置请到对应功能页面进行配置</text>
@@ -131,6 +144,52 @@
       
       <view class="settings-footer">
         <view class="setting-btn primary" bindtap="hideSettingsPanel">完成</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作说明弹层 -->
+  <view class="help-panel {{showHelp ? 'show' : ''}}" bindtap="hideHelpPanel">
+    <view class="help-content" catchtap="stopPropagation">
+      <view class="help-header">
+        <view class="help-title">操作说明</view>
+        <view class="close-btn" bindtap="hideHelpPanel">×</view>
+      </view>
+      <scroll-view scroll-y class="help-body">
+        <view class="help-section">
+          <view class="help-subtitle">首页</view>
+          <view class="help-list">
+            <text>• 点击「今日收益」进入收益详情</text>
+            <text>• 下方两个卡片可进入「物品成本」「退休倒计时」</text>
+            <text>• 右上角齿轮进入偏好设置，❓查看本说明</text>
+          </view>
+        </view>
+        <view class="help-section">
+          <view class="help-subtitle">物品成本</view>
+          <view class="help-list">
+            <text>• 右下角 + 添加物品，支持价格/日期/折旧率</text>
+            <text>• 左右滑动条目：编辑/删除</text>
+            <text>• 顶部可筛选分类、按价格/日期排序</text>
+          </view>
+        </view>
+        <view class="help-section">
+          <view class="help-subtitle">收益与退休</view>
+          <view class="help-list">
+            <text>• 收益页面可切换「平均/精确」模式</text>
+            <text>• 退休页面可设置年龄/生日并切换模式</text>
+            <text>• 节假日页可一键应用法定节假日/调休</text>
+          </view>
+        </view>
+        <view class="help-section">
+          <view class="help-subtitle">数据</view>
+          <view class="help-list">
+            <text>• 设置里可导出/导入JSON进行备份恢复</text>
+            <text>• 如需重置，使用「重置程序」将恢复初始状态</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="help-footer">
+        <view class="setting-btn primary" bindtap="hideHelpPanel">知道了</view>
       </view>
     </view>
   </view>

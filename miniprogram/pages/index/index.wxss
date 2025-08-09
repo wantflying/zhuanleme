@@ -8,13 +8,22 @@
   padding: 20rpx 0;
   margin-bottom: 20rpx;
 }
-
-.app-title {
-  font-size: 48rpx;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+.status-left {
+  flex: 1;
+  min-width: 0;
 }
+
+.daily-quote {
+  color: #111;
+  font-size: 32rpx;
+  font-weight: 600;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 已移除左上角标题 */
 
 .current-time {
   font-size: 28rpx;
@@ -22,12 +31,54 @@
   font-family: 'Courier New', monospace;
 }
 
+/* 不再在状态栏居中显示时间 */
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.help-btn {
+  font-size: 36rpx;
+  padding: 10rpx 8rpx;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .settings-btn {
   font-size: 36rpx;
-  padding: 10rpx;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10rpx);
+  padding: 10rpx 8rpx;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.settings-btn.plain {}
+
+/* 统一像素风主题下的按钮外观为纯图标 */
+.theme-pixel .settings-btn,
+.theme-pixel .help-btn,
+.theme-pixel-mint .settings-btn,
+.theme-pixel-mint .help-btn,
+.theme-pixel-sunset .settings-btn,
+.theme-pixel-sunset .help-btn,
+.theme-pixel-grape .settings-btn,
+.theme-pixel-grape .help-btn,
+.theme-pixel-ocean .settings-btn,
+.theme-pixel-ocean .help-btn,
+.theme-pixel-forest .settings-btn,
+.theme-pixel-forest .help-btn,
+.theme-pixel-rose .settings-btn,
+.theme-pixel-rose .help-btn {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 /* 收益卡片 */
@@ -71,6 +122,18 @@
   font-size: 24rpx;
   color: #999;
   opacity: 0.8;
+}
+
+/* 今日收益标题+时间 */
+.card-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.card-time {
+  font-size: 26rpx;
+  color: #6b7280;
 }
 
 /* 导航网格 */
@@ -334,6 +397,84 @@
 .setting-btn:active {
   opacity: 0.8;
   transform: scale(0.98);
+}
+
+/* 帮助弹层 */
+.help-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.help-panel.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.help-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 20rpx 20rpx 0 0;
+  padding: 40rpx;
+  max-height: 75vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.help-panel.show .help-content {
+  transform: translateY(0);
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.help-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.help-body {
+  padding: 30rpx 0;
+}
+
+.help-section {
+  margin-bottom: 28rpx;
+}
+
+.help-subtitle {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+  color: #444;
+}
+
+.help-list text {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.7;
+  margin: 6rpx 0;
+}
+
+.help-footer {
+  padding-top: 10rpx;
 }
 
 /* 动画效果增强 */

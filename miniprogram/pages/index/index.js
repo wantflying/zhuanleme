@@ -1,5 +1,5 @@
 // pages/index/index.js
-const { calculateTodayIncome, calculateRetirement, formatTime } = require('../../utils/calc.js');
+const { calculateTodayIncome, calculateRetirement, formatTimeWithSeconds, formatDate } = require('../../utils/calc.js');
 
 Page({
   /**
@@ -35,10 +35,13 @@ Page({
     
     // 设置面板
     showSettings: false,
+    // 操作说明
+    showHelp: false,
     
     // 动效相关
     incomeAnimationTimer: null,
     currentTime: '',
+    dailyQuote: '',
     
     // 主题类名
     themeClass: '',
@@ -54,6 +57,7 @@ Page({
     this.calculateData();
     this.updateTime();
     this.startIncomeAnimation();
+    this.setDailyQuote();
   },
 
   /**
@@ -64,6 +68,7 @@ Page({
     this.loadItemStats();
     this.calculateData();
     this.startIncomeAnimation();
+    this.setDailyQuote();
   },
 
   /**
@@ -71,6 +76,72 @@ Page({
    */
   onHide() {
     this.stopIncomeAnimation();
+  },
+
+  /**
+   * 语录候选（8-12字）
+   */
+  getQuoteList() {
+    const quotes = [
+      '行到水穷坐看云起',
+      '此心安处是吾乡',
+      '非淡泊无以明志',
+      '非宁静无以致远',
+      '不驰于空想不骛于虚声',
+      '日拱一卒功不唐捐',
+      '以终为始慎思笃行',
+      '躬身入局久久为功',
+      '路漫漫其修远兮',
+      '穷且益坚不坠青云之志',
+      '博观而约取厚积而薄发',
+      '吾生也有涯而知也无涯',
+      '吾将上下而求索',
+      '心有猛虎细嗅蔷薇',
+      '静以修身俭以养德',
+      '面朝大海春暖花开',
+      '读万卷书行万里路',
+      '少壮不努力老大徒伤悲',
+      '天行健君子以自强不息',
+      '地势坤君子以厚德载物',
+      '苟日新日日新又日新',
+      '大道至简实干为要',
+      '慎独守拙行稳致远'
+    ];
+    // 过滤长度 8-12 字
+    return quotes.filter(q => q.length >= 8 && q.length <= 12);
+  },
+
+  /**
+   * 设置每日一句（默认按日期稳定）
+   */
+  setDailyQuote() {
+    const list = this.getQuoteList();
+    if (!list.length) return;
+    const today = formatDate(new Date());
+    let hash = 0;
+    for (let i = 0; i < today.length; i++) {
+      hash = (hash * 31 + today.charCodeAt(i)) >>> 0;
+    }
+    const index = hash % list.length;
+    this.setData({ dailyQuote: list[index] });
+  },
+
+  /**
+   * 刷新语录（点击左上角）
+   */
+  refreshDailyQuote() {
+    const list = this.getQuoteList();
+    if (!list.length) return;
+    let next = list[Math.floor(Math.random() * list.length)];
+    // 尽量与当前不同
+    if (list.length > 1) {
+      let tries = 0;
+      while (next === this.data.dailyQuote && tries < 5) {
+        next = list[Math.floor(Math.random() * list.length)];
+        tries++;
+      }
+    }
+    this.setData({ dailyQuote: next });
   },
 
   /**
@@ -176,7 +247,7 @@ Page({
    */
   updateTime() {
     const now = new Date();
-    const currentTime = formatTime(now);
+    const currentTime = formatTimeWithSeconds(now);
     this.setData({ currentTime });
     
     // 每秒更新时间
@@ -263,6 +334,16 @@ Page({
    */
   hideSettingsPanel() {
     this.setData({ showSettings: false });
+  },
+
+  /**
+   * 显示/隐藏操作说明
+   */
+  showHelpPanel() {
+    this.setData({ showHelp: true });
+  },
+  hideHelpPanel() {
+    this.setData({ showHelp: false });
   },
 
   /**
